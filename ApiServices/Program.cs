@@ -1,4 +1,5 @@
 using ApiServices.Sockets;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace ApiServices;
 
@@ -28,6 +29,10 @@ public class Program
                 //options.JsonSerializerOptions.IgnoreNullValues = true;
                 
             });
+        builder.Services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        });
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -44,6 +49,7 @@ public class Program
         //app.UseCors(policyName);
         //app.UseHttpsRedirection();
         app.UseAuthorization();
+        app.UseForwardedHeaders();
         app.MapControllers();
         app.RegisterSocketEndpoints();
         app.Run();

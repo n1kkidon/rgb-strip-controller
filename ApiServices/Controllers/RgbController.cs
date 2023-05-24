@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
+
 namespace ApiServices.Controllers;
 
 [ApiController]
@@ -13,9 +15,12 @@ public class RgbController : ControllerBase
     [HttpGet("getPermissionState")]
     public IActionResult GetPermissionState()
     {
-        var Ip = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
-        var localIp = HttpContext.Connection.LocalIpAddress?.MapToIPv4().ToString();
-        return Ok($"remote: {Ip}\nlocal: {localIp}");
+        var Ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        if(Ip == "::1")
+            Ip = Dns.GetHostEntry(Dns.GetHostName()).AddressList[2].ToString();
+
+        
+        return Ok(Ip);
     }
 }
 
