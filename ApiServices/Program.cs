@@ -40,6 +40,7 @@ public class Program
         builder.Services.AddSignalR();
         builder.Services.AddSingleton<HttpService>();
         builder.Services.AddSingleton<MQTTPublisherService>();
+        builder.Services.AddSingleton<RGB>();
 
 
         var app = builder.Build();

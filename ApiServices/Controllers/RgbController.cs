@@ -8,13 +8,13 @@ namespace ApiServices.Controllers;
 [Route("rgb")]
 public class RgbController : ControllerBase
 {
-    private HttpService _http;
+    private readonly HttpService _http;
     public RgbController(HttpService http) => _http = http;
 
     [HttpGet("getLedState")]
     public bool GetLedStatus()
     {
-        return true;
+        return RGB.LED_IS_ON;
     }
     [HttpGet("getPermissionState")]
     public IActionResult GetPermissionState()
@@ -22,14 +22,16 @@ public class RgbController : ControllerBase
         var ip = HttpService.GetRemoteIp(HttpContext);
         var resp = false;
 
-        var comparison = _http.LocalGateway?.ToString().TrimEnd("1234567890".ToCharArray());
-        if (ip != null && ip.Equals(Dns.GetHostEntry("nikkidon.org")))
-            resp = true;
-        else if (comparison != null && ip != null && ip.StartsWith(comparison))
-            resp = true;
+        if (ip == null)
+            return Ok(resp);
 
-        Console.WriteLine(comparison);
-        Console.WriteLine(ip);
+        var comparison = _http.LocalGateway?.ToString().TrimEnd("1234567890".ToCharArray());
+        if (ip.Equals(Dns.GetHostEntry("nikkidon.org").AddressList.FirstOrDefault()?.ToString()))
+            resp = true;
+        else if (comparison != null && ip.StartsWith(comparison))
+            resp = true;
+        else if (ip.Equals("127.0.0.1"))
+            resp = true;
         return Ok(resp);
     }
 

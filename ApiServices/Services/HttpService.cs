@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace ApiServices.Services
 {
-    public class HttpService
+    public partial class HttpService
     {
         private HttpClient Client { get; set; }
         public IPAddress? LocalGateway { get; set; }
@@ -16,7 +16,7 @@ namespace ApiServices.Services
         {
             Client = new HttpClient();
 
-            var pattern = new Regex(@"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$");
+            var pattern = MyRegex();
             var nic = NetworkInterface.GetAllNetworkInterfaces()
                 .Where(x => x.GetIPProperties().GatewayAddresses.Count > 0)
                 .Where(x => x.GetIPProperties().GatewayAddresses.FirstOrDefault(x => pattern.IsMatch(x.Address.ToString())) != null)
@@ -67,5 +67,8 @@ namespace ApiServices.Services
                 Ip = Dns.GetHostEntry(Dns.GetHostName()).AddressList[2].ToString();
             return Ip;
         }
+
+        [GeneratedRegex("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")]
+        private static partial Regex MyRegex();
     }
 }
