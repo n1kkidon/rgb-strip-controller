@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using ApiServices.Services;
 
 namespace ApiServices.Controllers;
 
@@ -7,6 +8,9 @@ namespace ApiServices.Controllers;
 [Route("rgb")]
 public class RgbController : ControllerBase
 {
+    private HttpService _http;
+    public RgbController(HttpService http) => _http = http;
+
     [HttpGet("getLedState")]
     public bool GetLedStatus()
     {
@@ -15,12 +19,20 @@ public class RgbController : ControllerBase
     [HttpGet("getPermissionState")]
     public IActionResult GetPermissionState()
     {
-        var Ip = HttpContext.Connection.RemoteIpAddress?.ToString();
-        if(Ip == "::1")
-            Ip = Dns.GetHostEntry(Dns.GetHostName()).AddressList[2].ToString();
+        var ip = HttpService.GetRemoteIp(HttpContext);
+        var resp = false;
 
-        
-        return Ok(Ip);
+        var comparison = _http.LocalGateway?.ToString().TrimEnd("1234567890".ToCharArray());
+        if (ip != null && ip.Equals(Dns.GetHostEntry("nikkidon.org")))
+            resp = true;
+        else if (comparison != null && ip != null && ip.StartsWith(comparison))
+            resp = true;
+
+        Console.WriteLine(comparison);
+        Console.WriteLine(ip);
+        return Ok(resp);
     }
+
+
 }
 

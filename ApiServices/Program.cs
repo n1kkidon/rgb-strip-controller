@@ -1,3 +1,4 @@
+using ApiServices.Services;
 using ApiServices.Sockets;
 using Microsoft.AspNetCore.HttpOverrides;
 
@@ -37,6 +38,8 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddSignalR();
+        builder.Services.AddSingleton<HttpService>();
+        builder.Services.AddSingleton<MQTTPublisherService>();
 
 
         var app = builder.Build();

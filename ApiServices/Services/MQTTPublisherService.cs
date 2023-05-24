@@ -6,14 +6,8 @@ namespace ApiServices.Services;
 public class MQTTPublisherService
 {
     public IMqttClient Client { get; private set; }
-    private static MQTTPublisherService? Instance { get; set; }
-    public static MQTTPublisherService GetInstance()
-    {
-        if (Instance == null)
-            Instance = new();
-        return Instance;
-    }
-    private MQTTPublisherService()
+
+    public MQTTPublisherService()
     {
         var factory = new MqttFactory();
         Client = factory.CreateMqttClient();
