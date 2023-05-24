@@ -20,8 +20,8 @@ export class SocketService {
     this.hubConnection.stop();
   }
 
-  sendMessage(message: string): Promise<void> {
-    return this.hubConnection.invoke('ReceiveMessage', message);
+  sendMessage(method: string, message: string): Promise<void> {
+    return this.hubConnection.invoke(method, message);
   }
 
   addMessageListener(callback: (message: any) => void): void {

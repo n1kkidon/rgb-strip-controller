@@ -17,11 +17,26 @@ export class AppComponent {
   }
 
   onMessage = (message: string) => {
-
+    this.arrayColors[this.selectedColor] = message;
   }
 
   getEndpoint(){
     this.rgbService.getLedStatus().subscribe(data => console.log(data));
+  }
+  isOn = false;
+  onOff(){
+    this.isOn = !this.isOn;
+    if(this.isOn){
+      this.socketService.sendMessage("TurnOff", "");
+    }
+    else this.socketService.sendMessage("TurnOn", "");
+  }
+
+  startConnection(){
+    this.socketService.startConnection();
+  }
+  stopConnection(){
+    this.socketService.stopConnection();
   }
 
   title = 'rgbapp2';
@@ -38,10 +53,7 @@ export class AppComponent {
   selectedColor: string = 'color1';
 
   print(){
+    this.socketService.sendMessage("ReceiveMessage", this.arrayColors[this.selectedColor]);
     console.log(this.selectedColor);
-  }
-  hello(){
-    this.a = this.a + this.i;
-    this.arrayColors[this.selectedColor] = `rgba(${this.a}, ${this.a}, ${this.a}, 0.9)`;
   }
 }
