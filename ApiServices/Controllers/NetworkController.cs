@@ -9,9 +9,6 @@ namespace ApiServices.Controllers
     public class NetworkController : ControllerBase
     {
         [HttpGet("getIPv4Address")]
-        public IActionResult GetIPv4Address()
-        {
-            return Ok(HttpService.GetRemoteIp(HttpContext));
-        }
+        public string GetIPv4Address() => HttpService.GetRemoteIp(HttpContext)+"";
     }
 }

@@ -1,4 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$colorPickerPaddingDown: 20px;
+
+html, body { 
+    height: 100%;
+    background-color: rgb(20, 20, 20);
+    
+}
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+.color-picker{
+    background-color: rgb(15, 15, 15) !important;
+    border: 1px solid rgb(10, 10, 10) !important;
+    padding-top: $colorPickerPaddingDown;
+    border-radius: 8px;
+    margin-top: 7vh;
+}
+.color-picker .type-policy{
+    margin-top: $colorPickerPaddingDown;
+}
+.color-picker .box div{
+    color: white !important;
+}
+.color-picker .box input{
+    border: 1px solid grey !important;
+    border-radius: 8px;
+    color: white !important;
+    background-color: rgb(20, 20, 20) !important;
+}
+
+.color-picker .box input:focus{
+    outline: 2px solid yellow;
+    outline-offset: 0px;
+}

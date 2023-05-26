@@ -15,12 +15,12 @@ export class AppComponent {
   sendSelectedColor(){
     if(this.socketService.isConnected())
       this.socketService.sendMessage("ReceiveMessage", this.arrayColors[this.selectedColor]);
-    console.log(this.selectedColor);
   }
   isOn = false;
   constructor(private rgbService: RgbService, private socketService: SocketService){
     socketService.addMessageListener(this.onMessage);
     this.rgbService.getLedStatus().subscribe(data => this.isOn = data as boolean);
+    this.rgbService.getCurrentLedColor().subscribe(data => this.arrayColors[this.selectedColor] = data as string)
     this.rgbService.getPermission().subscribe(data => {
       if(data as boolean){
         this.socketService.startConnection();
@@ -30,10 +30,6 @@ export class AppComponent {
 
   onMessage = (message: string) => {
     this.arrayColors[this.selectedColor] = message;
-  }
-
-  getEndpoint(){
-    this.rgbService.getLedStatus().subscribe(data => console.log(data));
   }
   
   onOff(){
@@ -47,7 +43,6 @@ export class AppComponent {
   title = 'rgbapp2';
   arrayColors: any = {
     color1: '#2883e9',
-    color2: '#e920e9',
   };
   selectedColor: string = 'color1';
 

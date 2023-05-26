@@ -17,4 +17,7 @@ export class RgbService {
   getPermission(){
     return this.http.get('/rgb/getPermissionState').pipe();
   }
+  getCurrentLedColor(){
+    return this.http.get('/rgb/getCurrentLedColor', {responseType: 'text'}).pipe();
+  }
 }

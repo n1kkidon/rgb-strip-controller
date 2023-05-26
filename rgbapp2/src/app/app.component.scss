@@ -1,5 +1,19 @@
-.test{
-    width: 100px;
-    height: 50px;
-    border: 1px solid black;
+.power-on-button{
+    background-color: green !important;
+    margin-top: 10px;
+}
+.power-off-button{
+    background-color: red !important;
+    margin-top: 10px;
+}
+.mat-icon{
+    margin: 0 !important;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
 }

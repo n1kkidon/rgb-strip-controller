@@ -9,20 +9,25 @@ namespace ApiServices.Controllers;
 public class RgbController : ControllerBase
 {
     private readonly HttpService _http;
-    public RgbController(HttpService http) => _http = http;
+    private readonly RGB _rgb;
+
+    public RgbController(HttpService http, RGB rgb)
+    {
+        _http = http;
+        _rgb = rgb;
+    }
 
     [HttpGet("getLedState")]
-    public bool GetLedStatus()
-    {
-        return RGB.LED_IS_ON;
-    }
-    [HttpGet("getPermissionState")]
-    public bool GetPermissionState()
-    {
-        return GetIpPermission(HttpContext, _http);
-    }
+    public bool GetLedStatus() => RGB.LED_IS_ON;
 
-    public static bool GetIpPermission(HttpContext context, HttpService http)
+    [HttpGet("getCurrentLedColor")]
+    public string GetCurrentLedColor() => _rgb.GetHex();
+
+    [HttpGet("getPermissionState")]
+    public bool GetPermissionState() => CheckIfIpIsLocalNetwork(HttpContext, _http);
+
+
+    public static bool CheckIfIpIsLocalNetwork(HttpContext context, HttpService http)
     {
         var ip = HttpService.GetRemoteIp(context);
         var resp = false;

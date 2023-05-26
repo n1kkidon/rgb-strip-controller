@@ -18,7 +18,7 @@ namespace ApiServices.Sockets
         {
             var httpContext = invocationContext.Context.GetHttpContext() ??
                 throw new HubException("Illegal access to RgbService with null httpContext");
-            if (!RgbController.GetIpPermission(httpContext, _http))
+            if (!RgbController.CheckIfIpIsLocalNetwork(httpContext, _http))
             {
                 throw new HubException($"Illegal access to RgbService from {HttpService.GetRemoteIp(httpContext)}");
             }
@@ -29,7 +29,7 @@ namespace ApiServices.Sockets
         {
             var httpContext = context.Context.GetHttpContext() ??
                 throw new HubException("Illegal access to RgbService with null httpContext");
-            if (!RgbController.GetIpPermission(httpContext, _http))
+            if (!RgbController.CheckIfIpIsLocalNetwork(httpContext, _http))
             {
                 throw new HubException($"Illegal access to RgbService from {HttpService.GetRemoteIp(httpContext)}");
             }
