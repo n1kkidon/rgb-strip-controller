@@ -17,22 +17,27 @@ public class RgbController : ControllerBase
         return RGB.LED_IS_ON;
     }
     [HttpGet("getPermissionState")]
-    public IActionResult GetPermissionState()
+    public bool GetPermissionState()
     {
-        var ip = HttpService.GetRemoteIp(HttpContext);
+        return GetIpPermission(HttpContext, _http);
+    }
+
+    public static bool GetIpPermission(HttpContext context, HttpService http)
+    {
+        var ip = HttpService.GetRemoteIp(context);
         var resp = false;
 
         if (ip == null)
-            return Ok(resp);
+            return resp;
 
-        var comparison = _http.LocalGateway?.ToString().TrimEnd("1234567890".ToCharArray());
+        var comparison = http.LocalGateway?.ToString().TrimEnd("1234567890".ToCharArray());
         if (ip.Equals(Dns.GetHostEntry("nikkidon.org").AddressList.FirstOrDefault()?.ToString()))
             resp = true;
         else if (comparison != null && ip.StartsWith(comparison))
             resp = true;
         else if (ip.Equals("127.0.0.1"))
             resp = true;
-        return Ok(resp);
+        return resp;
     }
 
 

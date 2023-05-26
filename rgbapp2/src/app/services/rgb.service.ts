@@ -14,4 +14,7 @@ export class RgbService {
   getLedStatus(){
     return this.http.get('/rgb/getLedState').pipe();
   }
+  getPermission(){
+    return this.http.get('/rgb/getPermissionState').pipe();
+  }
 }

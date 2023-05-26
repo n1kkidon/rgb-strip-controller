@@ -1,4 +1,6 @@
-﻿namespace ApiServices.Sockets
+﻿using Microsoft.AspNetCore.SignalR;
+
+namespace ApiServices.Sockets
 {
     public static class EndpointsRegister
     {
@@ -6,6 +8,15 @@
         {
             app.UseRouting();
             app.MapHub<RgbService>("/rgbSocket");
+        }
+
+        public static void RegisterEndpointOptions(this ISignalRServerBuilder builder, IServiceCollection services)
+        {
+            builder.AddHubOptions<RgbService>(options =>
+            {
+                options.AddFilter<RgbServiceFilter>();
+            });
+            services.AddSingleton<RgbServiceFilter>();
         }
     }
 }

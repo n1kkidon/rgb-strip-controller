@@ -37,10 +37,11 @@ public class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddSignalR();
+        builder.Services.AddSignalR().RegisterEndpointOptions(builder.Services);
         builder.Services.AddSingleton<HttpService>();
         builder.Services.AddSingleton<MQTTPublisherService>();
         builder.Services.AddSingleton<RGB>();
+
 
 
         var app = builder.Build();
@@ -52,6 +53,7 @@ public class Program
         }
         //app.UseCors(policyName);
         //app.UseHttpsRedirection();
+        
         app.UseAuthorization();
         app.UseForwardedHeaders();
         app.MapControllers();

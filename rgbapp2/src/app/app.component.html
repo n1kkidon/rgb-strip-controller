@@ -2,13 +2,8 @@
         [cpDialogDisplay]="'inline'"
         [cpCancelButton]="false"
         [(colorPicker)]="arrayColors[selectedColor]"
-        (colorPickerChange)="print()">
+        (colorPickerChange)="senderFunction()">
 </span>
-<div class="test" [style.background]="arrayColors['color1']" (click)="selectedColor='color1'"></div>
-<div class="test" [style.background]="arrayColors['color2']" (click)="selectedColor='color2'"></div>
 
-<div class="test" [style.background]="arrayColors['color5']" (click)="startConnection()"></div>
-<div class="test" [style.background]="arrayColors['color5']" (click)="stopConnection()"></div>
-getendpoint
-<div class="test" [style.background]="arrayColors['color5']" (click)="getEndpoint()"></div>
-<div class="test" [style.background]="arrayColors['color5']" (click)="onOff()"></div>
+Turn on/off:
+<div><a mat-raised-button (click)="onOff()"><mat-icon>power</mat-icon></a></div>

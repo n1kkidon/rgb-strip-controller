@@ -6,6 +6,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BackEndUrlInterceptorService } from './services/back-end-url-interceptor.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { BackEndUrlInterceptorService } from './services/back-end-url-intercepto
   imports: [
     BrowserModule,
     ColorPickerModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatIconModule
   ],
   providers: [
     {

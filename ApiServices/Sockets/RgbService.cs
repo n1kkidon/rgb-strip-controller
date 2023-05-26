@@ -1,4 +1,5 @@
-﻿using ApiServices.Services;
+﻿using ApiServices.Controllers;
+using ApiServices.Services;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ApiServices.Sockets;
@@ -11,14 +12,16 @@ public class RgbService : Hub
     {
         _publisher = publisher;
         _rgb = rgb;
-        _publisher.PublishMessageAsync(RGB.firstLoginMsg, RGB.Topic).Wait();
-        _publisher.PublishMessageAsync(RGB.secondLoginMsg, RGB.Topic).Wait();
-        _publisher.PublishMessageAsync(RGB.LoginMsg3, RGB.Topic).Wait();
+        
     }
+
     public override async Task OnConnectedAsync()
     {
         try
         {
+            _publisher.PublishMessageAsync(RGB.firstLoginMsg, RGB.Topic).Wait();
+            _publisher.PublishMessageAsync(RGB.secondLoginMsg, RGB.Topic).Wait();
+            _publisher.PublishMessageAsync(RGB.LoginMsg3, RGB.Topic).Wait();
             Console.WriteLine($"Client from {HttpService.GetRemoteIp(Context.GetHttpContext())} connected to Rgb service.");
             Clients.Caller.SendAsync("onLogin", _rgb.GetHex()).Wait();
         }

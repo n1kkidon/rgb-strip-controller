@@ -47,7 +47,7 @@ public class MQTTPublisherService
         if (Client.IsConnected)
         {
             await Client.PublishAsync(msg);
-            Console.WriteLine($"Message sent to topic \"{topic}\".");
+            Console.WriteLine($"Message sent to topic \"{topic}\". {message}");
         }
     }
     public async Task PublishMessageAsync(byte[] message, string topic)
@@ -60,7 +60,7 @@ public class MQTTPublisherService
         if (Client.IsConnected)
         {
             await Client.PublishAsync(msg);
-            Console.WriteLine($"Message sent to topic \"{topic}\".");
+            Console.WriteLine($"Message sent to topic \"{topic}\". {message.Length}");
         }
     }
 }

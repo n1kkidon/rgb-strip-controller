@@ -11,9 +11,21 @@ import { SocketService } from './services/socket.service';
 })
 export class AppComponent {
   
-
+  senderFunction = this.throttle(this.sendSelectedColor, 35);
+  sendSelectedColor(){
+    this.socketService.sendMessage("ReceiveMessage", this.arrayColors[this.selectedColor]);
+    console.log(this.selectedColor);
+  }
+  isOn = false;
   constructor(private rgbService: RgbService, private socketService: SocketService){
     socketService.addMessageListener(this.onMessage);
+    this.rgbService.getLedStatus().subscribe(data => this.isOn = data as boolean);
+    this.rgbService.getPermission().subscribe(data => {
+      if(data as boolean){
+        this.socketService.startConnection();
+        console.log('got in');
+      }
+    });
   }
 
   onMessage = (message: string) => {
@@ -23,37 +35,42 @@ export class AppComponent {
   getEndpoint(){
     this.rgbService.getLedStatus().subscribe(data => console.log(data));
   }
-  isOn = false;
+  
   onOff(){
-    this.isOn = !this.isOn;
     if(this.isOn){
       this.socketService.sendMessage("TurnOff", "");
     }
     else this.socketService.sendMessage("TurnOn", "");
-  }
-
-  startConnection(){
-    this.socketService.startConnection();
-  }
-  stopConnection(){
-    this.socketService.stopConnection();
+    this.isOn = !this.isOn;
   }
 
   title = 'rgbapp2';
-  i = 10;
-  a  = 0;
-  color: any;
   arrayColors: any = {
     color1: '#2883e9',
     color2: '#e920e9',
-    color3: 'rgb(255,245,0)',
-    color4: 'rgb(236,64,64)',
-    color5: 'rgba(45,208,45,1)'
   };
   selectedColor: string = 'color1';
 
-  print(){
-    this.socketService.sendMessage("ReceiveMessage", this.arrayColors[this.selectedColor]);
-    console.log(this.selectedColor);
+
+  throttle(func: (...args: any[]) => void, delay: number) {
+    let timeoutId: any;
+    let lastExecTime = 0;
+
+    return (...args: any[]) => {
+      const context = this;
+      const currentTimestamp = new Date().getTime();
+
+      const executeFunction = () => {
+        func.apply(context, args);
+        lastExecTime = currentTimestamp;
+      };
+
+      if (currentTimestamp >= lastExecTime + delay) {
+        executeFunction();
+      } else {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(executeFunction, delay);
+      }
+    };
   }
 }
