@@ -13,7 +13,8 @@ export class AppComponent {
   
   senderFunction = this.throttle(this.sendSelectedColor, 35);
   sendSelectedColor(){
-    this.socketService.sendMessage("ReceiveMessage", this.arrayColors[this.selectedColor]);
+    if(this.socketService.isConnected())
+      this.socketService.sendMessage("ReceiveMessage", this.arrayColors[this.selectedColor]);
     console.log(this.selectedColor);
   }
   isOn = false;
@@ -23,7 +24,6 @@ export class AppComponent {
     this.rgbService.getPermission().subscribe(data => {
       if(data as boolean){
         this.socketService.startConnection();
-        console.log('got in');
       }
     });
   }

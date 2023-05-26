@@ -27,4 +27,7 @@ export class SocketService {
   addMessageListener(callback: (message: any) => void): void {
     this.hubConnection.on('SendMessage', callback);
   }
+  isConnected(){
+    return this.hubConnection.state == "Connected";
+  }
 }
