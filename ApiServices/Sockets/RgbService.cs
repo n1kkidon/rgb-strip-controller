@@ -36,7 +36,7 @@ public class RgbService : Hub
 
     public override Task OnDisconnectedAsync(Exception? exception)
     {
-        Console.WriteLine($"Client from {HttpService.GetRemoteIp(Context.GetHttpContext())} connected to Rgb service.");
+        Console.WriteLine($"Client from {HttpService.GetRemoteIp(Context.GetHttpContext())} disconnected from Rgb service.");
         return base.OnDisconnectedAsync(exception);
     }
 
