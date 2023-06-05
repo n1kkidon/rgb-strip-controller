@@ -24,8 +24,8 @@ export class SocketService {
     return this.hubConnection.invoke(method, message);
   }
 
-  addMessageListener(callback: (message: any) => void): void {
-    this.hubConnection.on('SendMessage', callback);
+  addMessageListener(methodName: string, callback: (message: any) => void): void {
+    this.hubConnection.on(methodName, callback);
   }
   isConnected(){
     return this.hubConnection.state == "Connected";

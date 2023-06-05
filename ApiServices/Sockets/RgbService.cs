@@ -53,10 +53,12 @@ public class RgbService : Hub
     {
         await _publisher.PublishMessageAsync(RGB.on, RGB.Topic);
         RGB.LED_IS_ON = true;
+        await Clients.Others.SendAsync("OnOff", RGB.LED_IS_ON);
     }
     public async Task TurnOff(string message)
     {
         await _publisher.PublishMessageAsync(RGB.off, RGB.Topic);
         RGB.LED_IS_ON = false;
+        await Clients.Others.SendAsync("OnOff", RGB.LED_IS_ON);
     }
 }

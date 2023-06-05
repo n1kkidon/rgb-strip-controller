@@ -18,7 +18,8 @@ export class AppComponent {
   }
   isOn = false;
   constructor(private rgbService: RgbService, private socketService: SocketService){
-    socketService.addMessageListener(this.onMessage);
+    socketService.addMessageListener('SendMessage', this.onMessage);
+    socketService.addMessageListener('OnOff', (message) =>  this.isOn = message as boolean);
     this.rgbService.getLedStatus().subscribe(data => this.isOn = data as boolean);
     this.rgbService.getCurrentLedColor().subscribe(data => this.arrayColors[this.selectedColor] = data as string)
     this.rgbService.getPermission().subscribe(data => {
