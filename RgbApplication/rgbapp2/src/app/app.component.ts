@@ -28,7 +28,7 @@ export class AppComponent {
       }
     });
   }
-
+  //Test comment
   onMessage = (message: string) => {
     this.arrayColors[this.selectedColor] = message;
   }

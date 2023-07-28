@@ -1,0 +1,12 @@
+.left-side, .right-side{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.navbar{
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    height: 65px;
+}
