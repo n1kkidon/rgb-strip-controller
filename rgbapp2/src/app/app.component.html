@@ -1,0 +1,11 @@
+<div class="main-container">
+        <span [cpToggle]="true"
+                [cpDialogDisplay]="'inline'"
+                [cpWidth]="'300px'"
+                [cpCancelButton]="false"
+                [(colorPicker)]="arrayColors[selectedColor]"
+                (colorPickerChange)="senderFunction()"
+                [cpAlphaChannel]="'disabled'">
+        </span>
+        <a [ngClass]="isOn? 'power-off-button' : 'power-on-button'" mat-raised-button (click)="onOff()"><mat-icon>power_settings_new</mat-icon></a>
+</div>
